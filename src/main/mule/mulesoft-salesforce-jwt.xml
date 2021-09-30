@@ -18,7 +18,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 	<flow name="mulesoft-salesforce-jwtFlow" doc:id="abbf0976-a2a3-4f6d-9fbf-e941c309c0f3" >
 		<http:listener doc:name="Listener" doc:id="a151794b-f52c-4dcf-aac7-c4a1f619fd08" config-ref="HTTP_Listener_config" path="/"/>
 		<salesforce:query doc:name="Query" doc:id="f6743c1d-000f-43ee-b283-4a5516ceae7a" config-ref="Salesforce_Config1">
-			<salesforce:salesforce-query ><![CDATA[SELECT ID,Name FROM Account LIMIT 10]]></salesforce:salesforce-query>
+			<salesforce:salesforce-query ><![CDATA[SELECT ID,Name FROM Account LIMIT 100]]></salesforce:salesforce-query>
 		</salesforce:query>
 		<ee:transform doc:name="Transform Message" doc:id="3cf75eef-500c-432b-908f-dd52b5bd8a58" >
 			<ee:message >
