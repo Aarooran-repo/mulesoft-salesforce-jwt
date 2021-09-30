@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<salesforce:sfdc-config name="Salesforce_Config" doc:name="Salesforce Config" doc:id="2300545a-2c87-49f4-9a08-14e34b664663" >
+		<salesforce:jwt-connection consumerKey="3MVG9n_HvETGhr3DfhIu2iEjRsK5e7WDbJunmEeOb1OaIw8SKg3CWV_KJeWVlrUN7krz9H8hozl2vAG6if9TI" keyStore="C:\Users\aarooran.CMS\Documents\2021\MuleSoft\Authenticate Salesforce Using JWT from MuleSoft\00D2w000000nszd.jks" storePassword="mulesoft2020" principal="aaroor121819@gmail.com" />
+	</salesforce:sfdc-config>
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="1c1b2c9c-01c6-4e7e-a03a-d7cfbb371005" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<salesforce:sfdc-config name="Salesforce_Config1" doc:name="Salesforce Config" doc:id="92177a37-b16b-4685-9bd0-5022813621ec" >
+		<salesforce:basic-connection username="aaroor121819@gmail.com" password="ag@121819" securityToken="AZwX7D4fkTcQFH9K32N3Ti28"/>
+	</salesforce:sfdc-config>
+	<flow name="mulesoft-salesforce-jwtFlow" doc:id="abbf0976-a2a3-4f6d-9fbf-e941c309c0f3" >
+		<http:listener doc:name="Listener" doc:id="a151794b-f52c-4dcf-aac7-c4a1f619fd08" config-ref="HTTP_Listener_config" path="/"/>
+		<salesforce:query doc:name="Query" doc:id="f6743c1d-000f-43ee-b283-4a5516ceae7a" config-ref="Salesforce_Config1">
+			<salesforce:salesforce-query ><![CDATA[SELECT ID,Name FROM Account LIMIT 10]]></salesforce:salesforce-query>
+		</salesforce:query>
+		<ee:transform doc:name="Transform Message" doc:id="3cf75eef-500c-432b-908f-dd52b5bd8a58" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="bf208b39-353b-480d-ae88-2ca526a29fbc" message="#[payload]"/>
+	</flow>
+</mule>
